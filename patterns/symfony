@@ -9,6 +9,7 @@ SYMFONY_LOG %{SYMFONY_LOG_TYPE:log_type}\.%{SYMFONY_LOG_LEVEL:log_level}
 SYMFONY_PARAMETER "[^"]*":( )?"[^"]*"
 SYMFONY_PARAMETERS (%{SYMFONY_PARAMETER}(, )?)*
 SYMFONY_CONTEXT {.*}
+SYMFONY_CONTEXT_EXTRA {.*\}
 SYMFONY_REQUEST_METHOD GET|POST|PUT|DELETE|HEAD|OPTIONS|CONNECT
 SYMFONY_REQUEST_PARAMETERS {"url":"%{GREEDYDATA:request_url}","ip":"%{IP:request_ip}","http_method":"%{SYMFONY_REQUEST_METHOD:request_method}"%{GREEDYDATA:additional_request_parameters}}
 
@@ -31,4 +32,4 @@ SYMFONY_VARIOUS_INFO Write SecurityContext in the session|Reloading user from us
 
 SYMFONY_LOG_MESSAGE %{SYMFONY_REQUEST}|%{SYMFONY_SECURITY}|%{SYMFONY_EVENT}|%{SYMFONY_DOCTRINE}|%{SYMFONY_VARIOUS_INFO:log_various_info}|%{VERYGREEDYDATA:log_unparsed_message}
 
-SYMFONY ^\[%{TIMESTAMP_ISO8601:date}\] %{SYMFONY_LOG}: %{SYMFONY_LOG_MESSAGE:log_message} (\[\]|%{SYMFONY_CONTEXT:log_context}) (\[\]|%{SYMFONY_REQUEST_PARAMETERS:log_request})
+SYMFONY ^\[%{TIMESTAMP_ISO8601:date}\] %{SYMFONY_LOG}: %{SYMFONY_LOG_MESSAGE:log_message} ((\[\])?|%{SYMFONY_CONTEXT:log_context}) ((\[\])?|%{SYMFONY_REQUEST_PARAMETERS:log_request})?(%{SYMFONY_CONTEXT_EXTRA})?
